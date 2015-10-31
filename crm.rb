@@ -32,7 +32,7 @@ class CRM
 		when 2 then modify_contact
 		when 3 then display_all_contacts
 		when 4 then display_contact
-		when 5 then display_contact_attriute
+		when 5 then display_contact_attribute
 		when 6 then delete_contact
 		when 7 then exit
 		else
@@ -82,22 +82,42 @@ class CRM
 	end
 
 	def display_all_contacts
-
+ 		Contact.all.each do |contact|
+ 			puts "#{contact.full_name}, #{contact.email} #{contact.notes} #{contact.id}"
+ 		end
+ 		puts "Press enter to continue"
+ 		continue = gets.chomp
 	end
 
 	def display_contact
-
+		puts "Contact id to display"
+		display = gets.chomp.to_i
+		contact = Contact.find(display)
+		puts "#{contact.full_name}, #{contact.email} #{contact.notes} #{contact.id}"
+		# contact.first_name ######this need to be worked out
 	end
 
 	def display_contact_attribute
-
+		puts "Which attribute do you wish to find out? 1. First name 2. Last name 3. email 4. notes"
+		attribute_number = gets.chomp.to_i
+		case attribute_number
+			when 1
+				puts Contact.display_attribute("first_name")
+			when 2
+				puts Contact.display_attribute("last_name")
+			when 3
+				puts Contact.display_attribute("email")
+			when 4
+				puts Contact.display_attribute("notes")
+		end
 	end
 
 	def delete_contact
-
+		Contact.delete_contact
 	end
-
 end
+
+
 
 my_awesome_crm = CRM.new('Bitmaker CRM')
 my_awesome_crm.main_menu

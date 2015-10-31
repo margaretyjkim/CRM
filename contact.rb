@@ -35,10 +35,32 @@ class Contact
 
 	def self.find(id) #class method
 		@@contacts.each do |contact|
-			if contact.id = id
+			if contact.id == id
 				return contact
 			end
 		end
+	end
+
+	def display_first_name(first_name)
+		@@contacts.each do |first_name|
+			if contact.first_name = first_name
+				return contact
+			end
+		end
+	end
+
+	def self.display_attribute(attribute)
+		list = []
+		@@contacts.each do |contact|
+			list << contact.send(attribute)
+		end
+		return list
+	end
+
+	def self.delete_contact
+		puts "user id plz"
+		user_specified_id = gets.chomp.to_i
+		@@contacts.delete_if {|contact| contact.id == user_specified_id }
 	end
 
 	# This a more advanced way of updating
