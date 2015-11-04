@@ -13,20 +13,21 @@ class Contact
 	# def first_name=(new_first_name)
 	# 	@first_name = new_first_name
 	# end
-	def initialize(first_name, last_name, options = {}) #make a hash so that you can extend more and get nil if you dont have the info
+	def initialize(first_name, last_name, email, notes) #make a hash so that you can extend more and get nil if you dont have the info
 		@first_name = first_name
 		@last_name = last_name
-		@email = options[:email]
-		@notes = options[:notes]
+		@email = email
+		@notes = notes
 
 		@id = @@id
 		@@id += 1
 	end
 	#self - refers to the object itself and in this case, it's the class that you are referring to
-	def self.create(first_name, last_name, options = {})
-		new_contact = Contact.new(first_name, last_name, options) #same thing as new_contact = new(first_name, last_name, options)
+	def self.create(first_name, last_name, email, notes)
+		new_contact = Contact.new(first_name, last_name, email, notes) #same thing as new_contact = new(first_name, last_name, options)
 
 		@@contacts << new_contact
+		return new_contact
 	end
 
 	def self.all #class method
@@ -34,11 +35,11 @@ class Contact
 	end
 
 	def self.find(id) #class method
-		@@contacts.each do |contact|
-			if contact.id == id
-				return contact
-			end
+		contacts = @@contacts.select do |contact|
+			contact.id == id
 		end
+
+		contacts.first
 	end
 
 	def display_first_name(first_name)
@@ -49,18 +50,37 @@ class Contact
 		end
 	end
 
-	def self.display_attribute(attribute)
+	def self.search_by_attribute(attribute, value)
 		list = []
 		@@contacts.each do |contact|
-			list << contact.send(attribute)
+			if attribute == "first_name"
+				if value == contact.first_name
+					list << contact
+				end
+			elsif attribute == "last_name"
+				if value == contact.last_name
+					list << contact
+				end
+			elsif attribute == "email"
+				if value == contact.email
+					list << contact
+				end
+			elsif attribute == "notes"
+				if value == contact.notes
+					list << contact
+				end
+			end
 		end
 		return list
 	end
 
-	def self.delete_contact
-		puts "user id plz"
-		user_specified_id = gets.chomp.to_i
-		@@contacts.delete_if {|contact| contact.id == user_specified_id }
+	def self.delete_contact(user_specified_id)
+		@@contacts.delete_if { |contact| contact.id == user_specified_id }
+	end
+
+	def self. delete_all
+		@@contacts = []
+		@@id = 1
 	end
 
 	# This a more advanced way of updating
@@ -73,4 +93,3 @@ class Contact
 	end
 
 end
-

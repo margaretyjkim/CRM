@@ -49,7 +49,7 @@ class CRM
 		email = gets.chomp
 		print "Notes: "
 		notes = gets.chomp
-		Contact.create(first_name, last_name, email: email, notes: notes)
+		Contact.create(first_name, last_name, email, notes)
 	end
 
 	def modify_contact
@@ -113,7 +113,10 @@ class CRM
 	end
 
 	def delete_contact
-		Contact.delete_contact
+		puts "user id plz"
+		user_specified_id = gets.chomp.to_i
+
+		Contact.delete_contact(user_specified_id)
 	end
 end
 
